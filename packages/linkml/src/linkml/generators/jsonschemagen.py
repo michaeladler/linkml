@@ -670,6 +670,8 @@ class JsonSchemaGenerator(Generator, LifecycleMixin):
             bool_subschema["anyOf"] = [self.get_subschema_for_slot(s, include_null=False) for s in slot.any_of]
             if not slot.required and not prop.is_array and include_null:
                 bool_subschema["anyOf"].append({"type": "null"})
+                if "type" in prop:
+                    prop["type"] = [prop["type"], "null"]
 
         if slot.all_of is not None and len(slot.all_of) > 0:
             bool_subschema["allOf"] = [self.get_subschema_for_slot(s, include_null=False) for s in slot.all_of]
